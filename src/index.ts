@@ -1,10 +1,14 @@
 import Joi from "joi";
 import express, { Request, Response } from "express";
+import morgan from "morgan";
+import helmet from "helmet";
 
 const app = express();
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public")); // render the static file into the browser, for that we have to pass "folderName" as a params
+app.use(morgan("tiny"));
+app.use(helmet());
 
 interface Genre {
   id: number;
