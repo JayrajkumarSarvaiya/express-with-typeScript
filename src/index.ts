@@ -7,8 +7,14 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public")); // render the static file into the browser, for that we have to pass "folderName" as a params
-app.use(morgan("tiny"));
+
 app.use(helmet());
+
+// run this command `export NODE_ENV=production` to set env as a "production" its by default "development"
+if (app.get("env") === "development") {
+  app.use(morgan("tiny"));
+  console.log("Morgan added...");
+}
 
 interface Genre {
   id: number;
