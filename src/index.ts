@@ -3,6 +3,8 @@ import express, { Request, Response } from "express";
 
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded());
+app.use(express.static("public")); // render the static file into the browser, for that we have to pass "folderName" as a params
 
 interface Genre {
   id: number;
