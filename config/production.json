@@ -1,0 +1,6 @@
+{
+  "name": "Express-typeScript-App - Production",
+  "mail": {
+    "host": "prod-mail-server"
+  }
+}

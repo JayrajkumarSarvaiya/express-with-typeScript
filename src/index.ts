@@ -1,7 +1,8 @@
 import Joi from "joi";
-import express, { Request, Response } from "express";
-import morgan from "morgan";
+const express = require("express");
+const morgan = require("morgan");
 import helmet from "helmet";
+const config = require("config");
 
 const app = express();
 app.use(express.json());
@@ -9,6 +10,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public")); // render the static file into the browser, for that we have to pass "folderName" as a params
 
 app.use(helmet());
+
+//Configuration
+console.log("App name : " + config.get("name"));
+console.log("Mail server : " + config.get("mail.host"));
+console.log("Mail password : " + config.get("mail.password"));
 
 // run this command `export NODE_ENV=production` to set env as a "production" its by default "development"
 if (app.get("env") === "development") {
@@ -36,12 +42,12 @@ function validateGenre(genre: any) {
 }
 
 //get API
-app.get("/api/genres", (req: Request, res: Response) => {
+app.get("/api/genres", (req: any, res: any) => {
   res.send(genres);
 });
 
 //post API
-app.post("/api/genres", (req: Request, res: Response) => {
+app.post("/api/genres", (req: any, res: any) => {
   const { error } = validateGenre(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -54,7 +60,7 @@ app.post("/api/genres", (req: Request, res: Response) => {
 });
 
 //put API
-app.put("/api/genres/:id", (req: Request, res: Response) => {
+app.put("/api/genres/:id", (req: any, res: any) => {
   const genre = genres.find((c) => c.id === parseInt(req.params.id, 10));
   if (!genre)
     return res.status(404).send("The genre with the given ID was not found.");
@@ -67,7 +73,7 @@ app.put("/api/genres/:id", (req: Request, res: Response) => {
 });
 
 //delete API
-app.delete("/api/genres/:id", (req: Request, res: Response) => {
+app.delete("/api/genres/:id", (req: any, res: any) => {
   const genre = genres.find((c) => c.id === parseInt(req.params.id, 10));
   if (!genre)
     return res.status(404).send("The genre with the given ID was not found.");
